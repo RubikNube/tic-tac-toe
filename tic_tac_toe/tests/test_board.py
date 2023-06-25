@@ -7,85 +7,82 @@ from board import Board
 
 
 class TestBoard(unittest.TestCase):
+    def setUp(self):
+        self.board = Board()
+
     def test_board_fields_are_initialized(self):
-        board = Board()
-        self.assertEqual(board.fields, [None] * 9)
-
-    def test_str_for_initial_board(self):
-        board = Board()
-        self.assertEqual(str(board), str([None] * 9))
-
-    def test_str_for_board_with_one_move(self):
-        board = Board()
-        board[0] = "X"
         self.assertEqual(
-            str(board), str(["X", None, None, None, None, None, None, None, None])
+            self.board.fields, [" ", " ", " ", " ", " ", " ", " ", " ", " "]
         )
 
+    def test_str_for_initial_board(self):
+        self.assertEqual(str(self.board), str([" "] * 9))
+
+    def test_str_for_board_with_one_move(self):
+        self.board[1] = "X"
+        expected = ["X", " ", " ", " ", " ", " ", " ", " ", " "]
+        self.assertEqual(str(self.board), str(expected))
+
     def test_str_for_board_with_two_moves(self):
-        board = Board()
-        board[0] = "X"
-        board[5] = "O"
+        self.board[1] = "X"
+        self.board[6] = "O"
         self.assertEqual(
-            str(board), str(["X", None, None, None, None, "O", None, None, None])
+            str(self.board), str(["X", " ", " ", " ", " ", "O", " ", " ", " "])
         )
 
     def test_repr(self):
-        board = Board()
-        self.assertEqual(
-            repr(board), "[None, None, None, None, None, None, None, None, None]"
-        )
+        print("repr(self.board):")
+        print(repr(self.board))
+        expected = """   |   |   
+-----------
+   |   |   
+-----------
+   |   |   
+"""
+        print("expected:")
+        print(expected)
+        print("expected length:", len(expected))
+        print("repr(self.board) length:", len(repr(self.board)))
+        self.assertEqual(repr(self.board), expected)
 
     def test_getitem(self):
-        board = Board()
-        self.assertEqual(board[0], None)
+        self.assertEqual(self.board[1], " ")
 
     def test_setitem(self):
-        board = Board()
-        board[0] = "X"
-        self.assertEqual(board[0], "X")
+        self.board[1] = "X"
+        self.assertEqual(self.board[1], "X")
 
     def test_len(self):
-        board = Board()
-        self.assertEqual(len(board), 9)
+        self.assertEqual(len(self.board), 9)
 
     def test_contains(self):
-        board = Board()
-        self.assertNotIn("X", board)
+        self.assertNotIn("X", self.board)
 
     def test_hash(self):
-        board = Board()
-        self.assertEqual(hash(board), hash(tuple([None] * 9)))
+        self.assertEqual(hash(self.board), hash(tuple([" "] * 9)))
 
     def test_copy(self):
-        board = Board()
-        board[0] = "X"
-        board_copy = board.__copy__()
-        self.assertEqual(board_copy[0], "X")
+        self.board[1] = "X"
+        board_copy = self.board.__copy__()
+        self.assertEqual(board_copy[1], "X")
 
     def test_get_empty_cells(self):
-        board = Board()
-        self.assertEqual(board.get_empty_cells(), [0, 1, 2, 3, 4, 5, 6, 7, 8])
+        self.assertEqual(self.board.get_empty_cells(), [0, 1, 2, 3, 4, 5, 6, 7, 8])
 
     def test_get_empty_cells_count(self):
-        board = Board()
-        self.assertEqual(board.get_empty_cells_count(), 9)
+        self.assertEqual(self.board.get_empty_cells_count(), 9)
 
     def test_is_full(self):
-        board = Board()
-        self.assertFalse(board.is_full())
+        self.assertFalse(self.board.is_full())
 
     def test_is_empty(self):
-        board = Board()
-        self.assertTrue(board.is_empty())
+        self.assertTrue(self.board.is_empty())
 
     def test_is_valid_move(self):
-        board = Board()
-        self.assertTrue(board.is_valid_move(0))
+        self.assertTrue(self.board.is_valid_move(0))
 
     def test_get_winner(self):
-        board = Board()
-        self.assertIsNone(board.get_winner())
+        self.assertIsNone(self.board.get_winner())
 
     if __name__ == "__main__":
         unittest.main()
