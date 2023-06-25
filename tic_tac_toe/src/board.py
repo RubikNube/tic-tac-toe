@@ -6,12 +6,13 @@ class Board:
         return str(self.fields)
 
     def __repr__(self):
-        representation = " " + self[7] + " | " + self[8] + " | " + self[9] + " \n"
-        representation += "-----------" + "\n"
-        representation += " " + self[4] + " | " + self[5] + " | " + self[6] + " \n"
-        representation += "-----------" + "\n"
-        representation += " " + self[1] + " | " + self[2] + " | " + self[3] + " \n"
-        return representation
+        return (
+            f" {self[7]} | {self[8]} | {self[9]} \n"
+            f"-----------\n"
+            f" {self[4]} | {self[5]} | {self[6]} \n"
+            f"-----------\n"
+            f" {self[1]} | {self[2]} | {self[3]} \n"
+        )
 
     # used to access the board with board[1] instead of board.fields[0]
     def __getitem__(self, index):

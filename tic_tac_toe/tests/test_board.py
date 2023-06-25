@@ -30,19 +30,32 @@ class TestBoard(unittest.TestCase):
             str(self.board), str(["X", " ", " ", " ", " ", "O", " ", " ", " "])
         )
 
-    def test_repr(self):
-        print("repr(self.board):")
-        print(repr(self.board))
-        expected = """   |   |   
------------
-   |   |   
------------
-   |   |   
-"""
-        print("expected:")
-        print(expected)
-        print("expected length:", len(expected))
-        print("repr(self.board) length:", len(repr(self.board)))
+    def test_repr_for_empty_board(self):
+        expected = (
+            "   |   |   \n"
+            "-----------\n"
+            "   |   |   \n"
+            "-----------\n"
+            "   |   |   \n"
+        )
+
+        self.assertEqual(repr(self.board), expected)
+
+    def test_repr_for_full_board(self):
+        for i in range(1, 10):
+            if i % 2 == 0:
+                self.board[i] = "X"
+            else:
+                self.board[i] = "O"
+
+        expected = (
+            " O | X | O \n"
+            "-----------\n"
+            " X | O | X \n"
+            "-----------\n"
+            " O | X | O \n"
+        )
+
         self.assertEqual(repr(self.board), expected)
 
     def test_getitem(self):
