@@ -2,8 +2,10 @@
 
 import random
 
+from board import Board
+
 # Global variables
-board = [" "] * 10
+board = Board()
 game_state = True
 announce = ""
 
@@ -12,7 +14,7 @@ player_mark = "Not set yet"
 
 
 def play_game():
-    reset_board()
+    reset_game()
     global announce, play_against_computer, player_mark
 
     # ask player if he wants to play against the computer
@@ -33,7 +35,7 @@ def play_game():
         print("\n" * 100)
         display_board()
 
-        if(play_against_computer):
+        if play_against_computer:
             # Player X turn
             game_state, announce = player_choice(X)
             print(announce)
@@ -67,9 +69,9 @@ def play_game():
 
 
 # Note: Game will ignore the 0 index
-def reset_board():
+def reset_game():
     global board, game_state, play_against_computer
-    board = [" "] * 10
+    board = Board()
     game_state = True
     play_against_computer = False
 
@@ -79,11 +81,7 @@ def display_board():
     # Clear current cell output
     print("\n" * 100)
     # Print board
-    print(" " + board[7] + " | " + board[8] + " | " + board[9])
-    print("-----------")
-    print(" " + board[4] + " | " + board[5] + " | " + board[6])
-    print("-----------")
-    print(" " + board[1] + " | " + board[2] + " | " + board[3])
+    print(repr(board) + "\n")
 
 
 def player_choice(mark):
@@ -96,7 +94,7 @@ def player_choice(mark):
     ask_player_for_move(mark)
 
     # Check for player win
-    if win_check(board, mark):
+    if board.get_winner() == mark:
         print("\n" * 100)
         display_board()
         announce = mark + " wins! Congratulations"
@@ -107,11 +105,12 @@ def player_choice(mark):
     display_board()
 
     # Check for a tie
-    if full_board_check(board):
+    if board.is_full():
         announce = "Tie!"
         game_state = False
 
     return game_state, announce
+
 
 def computer_choice(mark):
     global board, game_state, announce
@@ -124,7 +123,7 @@ def computer_choice(mark):
     search_for_best_move(mark)
 
     # Check for player win
-    if win_check(board, mark):
+    if board.get_winner() == mark:
         print("\n" * 100)
         display_board()
         announce = mark + " wins! Congratulations"
@@ -135,11 +134,12 @@ def computer_choice(mark):
     display_board()
 
     # Check for a tie
-    if full_board_check(board):
+    if board.is_full():
         announce = "Tie!"
         game_state = False
 
     return game_state, announce
+
 
 def search_for_best_move(mark):
     """Search for the best move to make"""
@@ -148,7 +148,7 @@ def search_for_best_move(mark):
     for i in range(1, 10):
         if board[i] == " ":
             board[i] = mark
-            if win_check(board, mark):
+            if board.get_winner() == mark:
                 return
             else:
                 board[i] = " "
@@ -161,7 +161,7 @@ def search_for_best_move(mark):
     for i in range(1, 10):
         if board[i] == " ":
             board[i] = mark
-            if win_check(board, mark):
+            if board.get_winner() == mark:
                 board[i] = "O"
                 return
             else:
@@ -171,6 +171,7 @@ def search_for_best_move(mark):
 
     return make_random_move(random)
 
+
 def make_random_move(random):
     while True:
         i = random.randint(1, 9)
@@ -178,35 +179,10 @@ def make_random_move(random):
             board[i] = "O"
             return
 
+
 def win_check(board, player):
     """Check Horizontals, Verticals, and Diagonals for a win"""
-    return (
-        win_check_horizontal(board, player)
-        or win_check_vertical(board, player)
-        or win_check_diagonal(board, player)
-    )
-
-
-def win_check_horizontal(board, player):
-    return (
-        (board[7] == board[8] == board[9] == player)
-        or (board[4] == board[5] == board[6] == player)
-        or (board[1] == board[2] == board[3] == player)
-    )
-
-
-def win_check_vertical(board, player):
-    return (
-        (board[7] == board[4] == board[1] == player)
-        or (board[8] == board[5] == board[2] == player)
-        or (board[9] == board[6] == board[3] == player)
-    )
-
-
-def win_check_diagonal(board, player):
-    return (board[1] == board[5] == board[9] == player) or (
-        board[3] == board[5] == board[7] == player
-    )
+    return board.get_winner() == player
 
 
 def ask_player_for_move(mark):
@@ -230,10 +206,6 @@ def ask_player_for_move(mark):
         else:
             print("That space isn't empty!")
 
-
-def full_board_check(board):
-    """Function to check if any remaining blanks are in the board"""
-    return " " not in board[1:]
 
 print("Welcome to Tic Tac Toe!")
 play_game()
