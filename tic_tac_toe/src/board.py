@@ -43,7 +43,7 @@ class Board:
         return new_board
 
     def get_empty_cells(self):
-        return [i for i, cell in enumerate(self.fields) if cell == " "]
+        return [i + 1 for i, cell in enumerate(self.fields) if cell == " "]
 
     def get_empty_cells_count(self):
         return len(self.get_empty_cells())

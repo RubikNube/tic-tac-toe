@@ -1,6 +1,7 @@
 import unittest
 import sys
 
+# Add the tic_tac_toe/src directory to the path so that we can import the board module
 sys.path.insert(0, "../src")
 
 from board import Board
@@ -79,23 +80,59 @@ class TestBoard(unittest.TestCase):
         board_copy = self.board.__copy__()
         self.assertEqual(board_copy[1], "X")
 
-    def test_get_empty_cells(self):
-        self.assertEqual(self.board.get_empty_cells(), [0, 1, 2, 3, 4, 5, 6, 7, 8])
+    def test_get_empty_cells_for_empty_board(self):
+        self.assertEqual(self.board.get_empty_cells(), [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
     def test_get_empty_cells_count(self):
         self.assertEqual(self.board.get_empty_cells_count(), 9)
 
-    def test_is_full(self):
+    def test_is_full_for_empty_board(self):
         self.assertFalse(self.board.is_full())
 
-    def test_is_empty(self):
+    def test_is_full_for_full_board(self):
+        self.board.fields = ["X"] * 9
+        self.assertTrue(self.board.is_full())
+
+    def test_is_empty_for_empty_board(self):
         self.assertTrue(self.board.is_empty())
 
-    def test_is_valid_move(self):
-        self.assertTrue(self.board.is_valid_move(0))
+    def test_is_empty_for_full_board(self):
+        self.board.fields = ["X"] * 9
+        self.assertFalse(self.board.is_empty())
 
-    def test_get_winner(self):
+    def test_is_valid_move_for_coordinate_0_is_false(self):
+        self.assertFalse(self.board.is_valid_move(0))
+
+    def test_is_valid_move_for_coordinate_1_to_9_is_true(self):
+        for i in range(1, 10):
+            self.assertTrue(self.board.is_valid_move(i))
+
+    def test_is_valid_move_for_coordinate_10_is_false(self):
+        self.assertFalse(self.board.is_valid_move(10))
+
+    def test_get_winner_for_empty_board_is_none(self):
         self.assertIsNone(self.board.get_winner())
+
+    def test_get_winner_for_full_board_with_no_winner_is_none(self):
+        self.board.fields = ["X", "O", "X", "X", "O", "O", "O", "X", "X"]
+
+        self.assertIsNone(self.board.get_winner())
+
+    def test_get_winner_for_horizontal_win_is_x(self):
+        self.board[1] = self.board[2] = self.board[3] = "X"
+        self.assertEqual(self.board.get_winner(), "X")
+
+    def test_get_winner_for_horizontal_win_is_o(self):
+        self.board[1] = self.board[2] = self.board[3] = "O"
+        self.assertEqual(self.board.get_winner(), "O")
+
+    def test_get_winner_for_vertical_win_is_x(self):
+        self.board[1] = self.board[4] = self.board[7] = "X"
+        self.assertEqual(self.board.get_winner(), "X")
+
+    def test_get_winner_for_diagonal_win_is_x(self):
+        self.board[1] = self.board[5] = self.board[9] = "X"
+        self.assertEqual(self.board.get_winner(), "X")
 
     if __name__ == "__main__":
         unittest.main()
