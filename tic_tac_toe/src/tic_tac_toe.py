@@ -235,7 +235,7 @@ def full_board_check(board):
     """Function to check if any remaining blanks are in the board"""
     return " " not in board[1:]
 
-
+print("Welcome to Tic Tac Toe!")
 play_game()
 
 # End of program
