@@ -14,6 +14,8 @@ readonly script_name script_dir
 
 echo "Executing tests..."
 
+ls -la
+
 pushd ./tests
 python -m unittest discover
 popd
