@@ -12,9 +12,7 @@ script_name=$(basename "${0}")
 script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 readonly script_name script_dir
 
-echo "Executing tests..."
-
-ls -la
+echo "Executing tests in ${script_dir}..."
 
 pushd ./tests
 python -m unittest discover
