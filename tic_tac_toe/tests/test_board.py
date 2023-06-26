@@ -10,9 +10,6 @@ class TestBoard(unittest.TestCase):
     def setUp(self):
         self.board = Board()
 
-    def test_dummy_false(self):
-        self.assertFalse(True)
-
     def test_board_fields_are_initialized(self):
         self.assertEqual(
             self.board.fields, [" ", " ", " ", " ", " ", " ", " ", " ", " "]
