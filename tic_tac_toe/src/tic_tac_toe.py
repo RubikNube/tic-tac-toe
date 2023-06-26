@@ -28,8 +28,8 @@ def play_game():
         player_mark = input("Please choose X or O: ").upper()
 
     # Set marks
-    X = "X"
-    O = "O"
+    mark_x = "X"
+    mark_o = "O"
     while True:
         # Show board
         print("\n" * 100)
@@ -37,27 +37,27 @@ def play_game():
 
         if play_against_computer:
             # Player X turn
-            game_state, announce = player_choice(X)
+            game_state, announce = player_choice(mark_x)
             print(announce)
-            if game_state == False:
+            if game_state is False:
                 break
 
             # Player O turn
-            game_state, announce = computer_choice(O)
+            game_state, announce = computer_choice(mark_o)
             print(announce)
-            if game_state == False:
+            if game_state is False:
                 break
         else:
             # Player X turn
-            game_state, announce = player_choice(X)
+            game_state, announce = player_choice(mark_x)
             print(announce)
-            if game_state == False:
+            if game_state is False:
                 break
 
             # Player O turn
-            game_state, announce = player_choice(O)
+            game_state, announce = player_choice(mark_o)
             print(announce)
-            if game_state == False:
+            if game_state is False:
                 break
 
     # Ask player for a rematch

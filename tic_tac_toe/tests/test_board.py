@@ -3,8 +3,7 @@ import sys
 
 # Add the tic_tac_toe/src directory to the path so that we can import the board module
 sys.path.insert(0, "../src")
-
-from board import Board
+from board import Board  # noqa: E402
 
 
 class TestBoard(unittest.TestCase):
